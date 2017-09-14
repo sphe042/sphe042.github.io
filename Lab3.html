@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Lab 3</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/logo-nav.css" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" integrity="sha512-wcw6ts8Anuw10Mzh9Ytw4pylW8+NAD4ch3lqm9lzAsTxg0GFeJgoAtxuCLREZSC5lUXdVyo/7yfsqFjQ4S+aKw==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js" integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA==" crossorigin=""></script>
+    
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+	<script src='https://api.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.js'></script>
+	<link href='https://api.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.css' rel='stylesheet' />
+	
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+              
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="index.html">Lab 1</a>
+                    </li>
+                    <li>
+                        <a href="Lab2.html">Lab 2</a>
+                    </li>
+                    <li>
+                        <a href="Lab3.html">Lab 3</a>
+                    </li>
+					<li>
+						<a href="Lab4.html">Lab 4</a>
+					</li>
+					<li>
+						<a href="Lab5.html">Lab 5</a>
+					</li>
+					<li>
+						<a href="Project.html">Project</a>
+					</li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+				<h2 class='text-center'>The Great Walks of New Zealand</h2>
+				<p class='text-center'>Using data published by the NZ Department of Conservation, this map is made using Mapbox Studio and Mapbox GL JS.</p>
+            </div>
+        </div>
+    </div>
+	
+	<table class= container>
+	<tr>
+	<th style= "text-align: center">mapbox studio</th>
+	<th style= "text-align: center">mapbox studio and mapbox gl js</th>
+	</tr>
+	<tr>
+	<td><div class= container id='mapone' style='width: 600px; height: 900px;'></div>
+	<script>
+	mapboxgl.accessToken = 'pk.eyJ1Ijoic3BoZTA0MiIsImEiOiJjajZwcG51ZTgwMW5xMnJvNm1hMGdseXQ3In0.R3uz-MSlDBxpmCbnWJDrkA';
+		var map = new mapboxgl.Map({
+		container: 'mapone',
+		style: 'mapbox://styles/sphe042/cj6pq1veu06qr2rua3gb6hfgl',
+		center: [172.8860, -40.9006],
+		zoom: 5.0,
+		});
+	</script>
+	</td>
+	
+	<td><div class= container id='maptwo' style='width: 600px; height: 900px;'></div>
+	<script>
+	mapboxgl.accessToken = 'pk.eyJ1Ijoic3BoZTA0MiIsImEiOiJjajZwcG51ZTgwMW5xMnJvNm1hMGdseXQ3In0.R3uz-MSlDBxpmCbnWJDrkA';
+		var maptwo= new mapboxgl.Map({
+		container:'maptwo',
+		style:'mapbox://styles/sphe042/cj7ihwteq5me62rny2eqgkaqk',
+		center:[172.8860, -40.9006],
+		zoom: 5.0,
+		});
+		
+	maptwo.on('load', function(){
+		map.addSource('GW2',{
+			type:'vector',
+			url:'sphe042.cj6pqyotj024e2wqpnndsg9g3-836xx'
+		});
+		
+	maptwo.addLayer({
+		'id': 'GW2',
+		'type':'line',
+		'source':'greatwalksplan',
+		'source-layer':'greatwalksplan',
+		'layout':{
+			'visibility':'visible',
+			'line-join':'round',
+			'line-cap':'round'
+		},
+		'paint':{
+			'line-color':'#ff33cc',
+			'line-width': 2
+		}
+		});
+
+	maptwo.setLayerZoomRange('greatwalksplan', 10, 22);
+
+	});
+	
+	maptwo.on('load', function () {
+    maptwo.addSource("markers", {
+        "type": "geojson",
+        "data": {
+            "type": "FeatureCollection",
+            "features": [{
+                "type": "Feature",
+                "geometry": {
+					"type": "Point",
+					"coordinates": [175.6219482421875,-39.175320215984435]
+                },
+				"properties": {
+					"title": "Tongariro Northern Circuit",
+					"marker-symbol": "star-stroked-11"
+                }
+            },
+			{
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [177.06527709960938,-38.76479194327963]
+                },
+                "properties": {
+                    "title": "Lake Waikeramoana",
+                    "marker-symbol": "star-stroked-11"
+                }
+            },
+			{
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [173.03741455078125,-40.86575678600679]
+                },
+                "properties": {
+                    "title": "Abel Tasman Coast Track",
+                    "marker-symbol": "star-stroked-11"
+                }
+			},
+            {
+                "type": "Feature",
+				"geometry": {
+					"type": "Point",
+					"coordinates": [172.25051879882812,-40.87406461663041]
+                },
+                "properties": {
+					"title": "Heaphy Track",
+					"marker-symbol": "star-stroked-11"
+                }
+			},
+			{
+                "type": "Feature",
+                "geometry": {
+					"type": "Point",
+					"coordinates": [168.16635131835938,-44.77111175531263]				
+            },
+				"properties": {
+					"title": "Routeburn Track",
+					"marker-symbol": "star-stroked-11"
+				}
+			},
+			{
+                "type": "Feature",
+				"geometry": {
+					"type": "Point",
+					"coordinates": [167.51541137695312,-45.39652136952785]
+                			
+                },
+				"properties": {
+					"title": "Kepler Track",
+					"marker-symbol": "star-stroked-11"	
+                }
+			},
+            {
+				"type": "Feature",
+				"geometry": {
+					"type": "Point",
+					"coordinates": [167.78182983398438,-44.79158175909385]
+            },
+				"properties": {
+					"title": "Milford Track",
+					"marker-symbol": "star-stroked-11"
+				}
+			},
+            {
+				"type": "Feature","geometry": {
+					"type": "Point",
+					"coordinates": [168.05648803710938,-46.876152155945014]
+            },
+				"properties": {
+					"marker-symbol": "star-stroked-11",
+					"title": "Rakiura Track"
+            }
+        }]
+        }
+    });
+
+
+    maptwo.addLayer({
+        "id": "markers",
+        "type": "symbol",
+        "source": "markers",
+        "layout": {
+            "icon-image": "{marker-symbol}",
+            "text-field": "{title}",
+            "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
+            "text-size": 10,
+            "text-offset": [0, 0.5],
+			"text-anchor": "top"
+          },
+    });
+});
+
+	maptwo.on('mousemove', function (e) {
+		var features = maptwo.queryRenderedFeatures(e.point,{layers:['markers']});
+		maptwo.getCanvas().style.cursor = features.length ? 'pointer' : '';
+	});
+
+	maptwo.on('click', function (e) {
+		var features = maptwo.queryRenderedFeatures(e.point,{layers:['markers']});
+		if (features.length){
+			maptwo.flyTo({center: features[0].geometry.coordinates, zoom: 10});
+		}
+	});
+	
+	</script>
+	</td>
+	</tr>
+	</table>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
