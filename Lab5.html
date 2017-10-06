@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Lab 5</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/logo-nav.css" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" integrity="sha512-wcw6ts8Anuw10Mzh9Ytw4pylW8+NAD4ch3lqm9lzAsTxg0GFeJgoAtxuCLREZSC5lUXdVyo/7yfsqFjQ4S+aKw==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js" integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA==" crossorigin=""></script>
+    
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	<style type="text/css">
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 80%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 80%;
+        margin: 10px;
+        padding: 20px;
+      }
+	 
+	#legend {
+			position: relative;
+			width: 400px;
+			height: 50px;
+			margin-top: 10px;
+			margin-left: 400px;
+			margin-bottom: 10px;
+			align: center
+			}
+	
+	#legendGradient {
+			width: 100%;
+			height: 15px;
+			border: 1px solid black;
+			align-content: center;
+			}
+	
+	#legendText1 {
+			margin-left: 0px;
+			margin-right: 0px;
+			align-content: center;
+			}
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+              
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="index.html">Lab 1</a>
+                    </li>
+                    <li>
+                        <a href="Lab2.html">Lab 2</a>
+                    </li>
+                    <li>
+                        <a href="Lab3.html">Lab 3</a>
+                    </li>
+					<li>
+						<a href="Lab4.html">Lab 4</a>
+					</li>
+					<li>
+						<a href="Lab5.html">Lab 5</a>
+					</li>
+					<li>
+						<a href="Project.html">Project</a>
+					</li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="text-center">Mapping streaming data with the Google Maps API</h2>
+                <h5 class="text-center">This map displays the 50 most recent earthquakes in New Zealand</h5>
+				<h5 class="text-center">Data Source: <a href="https://wfs.geonet.org.nz/">GeoNet Web Feature Service</a> </h5>
+            </div>
+        </div>
+    </div>
+	<div id="legend" class="container" align="left">
+	<div id="legendText1" class="container" align="left">0.0<span style="white-space:pre">                              Magnitude                              </span><span style="white-space:pre">4.0+</span></div>
+	<div id="legendGradient" class="container" align= "center" style="background: -webkit-linear-gradient(left, hsl(61,96%,51%) 0%, hsl(35,83%,66%) 22%, hsl(31,98%,51%) 49%, hsl(6,98%,49%) 76%, hsl(5,94%,28%) 98%, hsl(5,94%,28%) 100%);"></div></div>
+	<body id="map-container">
+    <div id="map" style="width: 60%; height: 900px;" class="container"></div>	
+    <script>
+      var map;
+
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: { lat: -41.5006, lng: 173.8860 },
+          zoom: 6,
+          styles: mapStyle
+        });
+
+        map.setMapTypeId('satellite');
+
+		map.data.loadGeoJson(
+        'http://wfs.geonet.org.nz/geonet/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=geonet:quake_search_v1&maxFeatures=50&outputFormat=json');
+		
+		map.data.setStyle(styleFeature);
+
+      function styleFeature(feature) {
+        var low = [61,96,51];   // color of magnitude 0.1
+        var high = [5,94,28];  // color of magnitude 4.0+
+        var minmagnitude = 0.1;
+        var maxmagnitude = 4.0;
+
+        var fraction = (Math.min(feature.getProperty('magnitude'), maxmagnitude) - minmagnitude) /
+            (maxmagnitude - minmagnitude);
+
+        var color = interpolateHsl(low, high, fraction);
+
+        return {
+          icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            strokeWeight: 0.5,
+            strokeColor: '#000000',
+            fillColor: color,
+            fillOpacity: 2.5 / feature.getProperty('magnitude'),
+            scale: Math.pow(feature.getProperty('magnitude'), 2)
+          },
+          zIndex: Math.floor(feature.getProperty('magnitude'))
+        };
+      }
+	}
+      function interpolateHsl(lowHsl, highHsl, fraction) {
+        var color = [];
+        for (var i = 0; i < 3; i++) {
+          // Calculate color based on the fraction.
+          color[i] = (highHsl[i] - lowHsl[i]) * fraction + lowHsl[i];
+        }
+
+        return 'hsl(' + color[0] + ',' + color[1] + '%,' + color[2] + '%)';
+      }
+
+      var mapStyle = [{
+        'featureType': 'all',
+        'elementType': 'all',
+        'stylers': [{'visibility': 'off'}]
+      }, {
+        'featureType': 'landscape',
+        'elementType': 'geometry',
+        'stylers': [{'visibility': 'on'}, {'color': '#fcfcfc'}]
+      }, {
+        'featureType': 'water',
+        'elementType': 'labels',
+        'stylers': [{'visibility': 'off'}]
+      }, {
+        'featureType': 'water',
+        'elementType': 'geometry',
+        'stylers': [{'visibility': 'on'}, {'hue': '#5f94ff'}, {'lightness': 60}]
+      }];
+
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBe0mFrLMynBoKkQybCVPM5LYYAf6ZwmXA&callback=initMap">
+    </script>
+	
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
