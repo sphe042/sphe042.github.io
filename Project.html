@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Project</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/logo-nav.css" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" integrity="sha512-wcw6ts8Anuw10Mzh9Ytw4pylW8+NAD4ch3lqm9lzAsTxg0GFeJgoAtxuCLREZSC5lUXdVyo/7yfsqFjQ4S+aKw==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js" integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA==" crossorigin=""></script>
+    
+	<script src='https://api.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.js'></script>
+	<link href='https://api.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.css' rel='stylesheet' />
+	<script src="/js/leaflet-0.7.2/leaflet.ajax.min.js"></script>
+	
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+              
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="index.html">Lab 1</a>
+                    </li>
+                    <li>
+                        <a href="Lab2.html">Lab 2</a>
+                    </li>
+                    <li>
+                        <a href="Lab3.html">Lab 3</a>
+                    </li>
+					<li>
+						<a href="Lab4.html">Lab 4</a>
+					</li>
+					<li>
+						<a href="Lab5.html">Lab 5</a>
+					</li>
+					<li>
+						<a href="Project.html">Project</a>
+					</li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="text-center">Food Truck Vendors in Vancouver</h2>
+                <h5 class="text-center">The following map displays food truck vendors in Vancouver. The map was made using Mapbox GL JS</h5>
+				<p class="text-center">Data Source: <a href="http://data.vancouver.ca/datacatalogue/index.htm">City of Vancouver Open Data</a></p>
+            </div>
+        </div>
+    </div>
+
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v3.1.1/mapbox-gl-directions.js'></script>
+<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v3.1.1/mapbox-gl-directions.css' type='text/css' />
+
+<div id="map" style="width: 80%; height: 900px;" class="container"></div>
+
+<script>
+mapboxgl.accessToken = 'pk.eyJ1Ijoic3BoZTA0MiIsImEiOiJjajZwcG51ZTgwMW5xMnJvNm1hMGdseXQ3In0.R3uz-MSlDBxpmCbnWJDrkA';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/sphe042/cj8wcg26f5elr2rk5pgr6wlo0',
+    center: [-123.1107, 49.2827],
+    zoom: 13
+});
+
+map.addControl(new MapboxDirections({
+    accessToken: mapboxgl.accessToken
+}), 'top-right');
+
+map.addControl(new mapboxgl.NavigationControl());
+
+map.addControl(new mapboxgl.GeolocateControl({
+    positionOptions: {
+        enableHighAccuracy: true
+    },
+    trackUserLocation: true
+}));
+		
+		
+map.on('load', function () {
+
+    map.addLayer({
+        "id": "points",
+        "type": "symbol",
+        "source": {
+            "type": "geojson",
+            "data":
+				{
+				  "type": "FeatureCollection",
+				  "features": [
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Arturo's Mexico To Go</b><p><i>Mexican Cuisine</i></p><p>North Side of 700 W Cordova St - 14 metres East of Howe St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "North Side of 700 W Cordova St - 14 metres East of Howe St Mexican Cuisine"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1135675,49.28652822]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Aussie Pie Guy</b><p><i>Australian Pies</i></p><p>Authorised Parking Meter - 1000 W Pender St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Authorised Parking Meter - 1000 W Pender St Australian Pies"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1181924,49.28695198]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>BBKB Kaboom Box</b><p><i>Seafood and Western</i></p><p>West Side of 700 Granville St - South of W Georgia St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "West Side of 700 Granville St - South of W Georgia St Seafood and Western"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1185915,49.28236261]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Bandidas</b><p><i>Vegan Cuisine</i></p><p>Authorised Parking Meter - North Side of 1000 W Georgia St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Authorised Parking Meter - North Side of 1000 W Georgia St Vegan Cuisine "
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1220931,49.28519368]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Cazba Express</b><p><i>Kebabs</i></p><p>North Side of 700 Robson St - 12 Metres West of Granville St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "North Side of 700 Robson St - 12 Metres West of Granville St Kebabs"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1199347,49.28154701]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Chickpea</b><p><i>Vegetarian</i></p><p>Authorised Parking Meter - North Side of W Cordova St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Authorised Parking Meter - North Side of W Cordova St Vegetarian"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1157734,49.28761253]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Chou Chou Crepes</b><p><i>French Crepes</i></p><p>North Side of 100 Water St - 10 Metres West of Abbott St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "North Side of 100 Water St - 10 Metres West of Abbott St French Crepes"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1066273,49.28398975]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Commissary Connect</b><p><i>Variety Menu</i></p><p>West Side of 600 Hornby St - 6 Metres South of Dunsmuir St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "West Side of 600 Hornby St - 6 Metres South of Dunsmuir St Variety Menu"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1185811,49.2849051]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Commissary Connect</b><p><i>Variety Menu</i></p><p>East Side of 700 Hornby St - 22 metres South of W Georgia St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "East Side of 700 Hornby St - 22 metres South of W Georgia St Variety Menu"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1203097,49.28350877]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Commissary Connect</b><p><i>Variety Menu</i></p><p>South Side of 800 Robson St- 15 Metres East of Hornby St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "South Side of 800 Robson St- 15 Metres East of Hornby St Variety Menu"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1213885,49.28231471]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Culver City Salads/b><p><i>Vegan Salads and Treats</i></p><p>Authorised Parking Meter - 1000 W Hastings St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Authorised Parking Meter - 1000 W Hastings St Vegan Salads and Treats"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1192501,49.28786418]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Didi's Greek</b><p><i>Greek Cuisine</i></p><p>South Side of 1700 Robson St - 10 Metres East of Denman St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "South Side of 1700 Robson St - 10 Metres East of Denman St Greek Cuisine"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1352712,49.29124169]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Dim Sum Express</b><p><i>Dim Sum</i></p><p>East Side of 200 Howe St - 100 Metres North of W Cordova St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "East Side of 200 Howe St - 100 Metres North of W Cordova St Dim Sum"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1128709,49.28723546]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Disco Cheetah</b><p><i>Korean</i></p><p>Authorised Parking Meter West Side of 700 Howe St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Authorised Parking Meter West Side of 700 Howe St Korean "
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1204436,49.28236783]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Dog Meister</b><p><i>Hot Dogs</i></p><p>West Side of 2900 Main St - 20 Metres North of E 14th Ave</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "West Side of 2900 Main St - 20 Metres North of E 14th Ave Hot Dogs"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1015691,49.25847468]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Eat Chicken Wraps</b><p><i>Wraps and Sandwiches</i></p><p>West Side of 800 Howe St - 5 Metres South of Robson St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "West Side of 800 Howe St - 5 Metres South of Robson St Wraps and Sandwiches"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1210986,49.28192857]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Fat Duck Mobile Eatery</b><p><i>International Comfort Foods</i></p><p>Authorised Parking Meter - South Side of 700 W Cordova St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Authorised Parking Meter - South Side of 700 W Cordova St International Comfort Foods"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1137005,49.28645041]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Feastro - The Rolling Bistro</b><p><i>Local Meats and Seafood</i></p><p>Authorised Parking Meter - Thurlow St at W Cordova St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Authorised Parking Meter - Thurlow St at W Cordova St Local Meats and Seafood"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.118453,49.288672]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Feastro The Rolling Bistro</b></p><i>Local Meats and Seafood</i></p><p>Authorised Parking Meter West Side of 700 Howe St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Authorised Parking Meter West Side of 700 Howe St Local Meats and Seafood"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1203452,49.28243866]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Gourmet Syndicate</b><p><i>Comfort Food</i></p><p>Authorised Parking Meter East Side of 900 Burrard St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Authorised Parking Meter East Side of 900 Burrard St Comfort Food"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1245114,49.28205453]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Holi Masala</b><p><i>Indian Cuisine</i></p><p>Authorised Parking Meter - East Side of 600 Seymour St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Authorised Parking Meter - East Side of 600 Seymour St Indian Cuisine"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.116846,49.28198722]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Holy Smokes</b><p><i>Hot Dogs</i></p><p>South Side 1500 West Broadway - 6 Metres West of Granville St </p>",
+						"marker-symbol": "restaurant-15",
+						"description": "South Side 1500 West Broadway - 6 Metres West of Granville St Hot Dogs"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1389216,49.26348383]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Japadog</b><p><i>Hot Dogs</i></p><p>North Side of 600 W Cordova St - 6 Metres East of Granville St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "North Side of 600 W Cordova St - 6 Metres East of Granville St Hot Dogs"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.112526,49.28590609]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Japadog</b><p><i>Hot Dogs</i></p><p>East Side of 500 Burrard St - 6 Metres South of West Pender St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "East Side of 500 Burrard St - 6 Metres South of West Pender St Hot Dogs"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.117884,49.286363]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Japadog</b><p><i>Hot Dogs</i></p><p>West Side of 800 Burrard St - 2.5 Metres North of Smithe St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "West Side of 800 Burrard St - 2.5 Metres North of Smithe St Hot Dogs"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1243637,49.28241993]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Korean Mama Express</b><p><i>Korean BBQ</i></p><p>South Side of 700 W Georgia St - 20 Metres West of Granville St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "South Side of 700 W Georgia St - 20 Metres West of Granville St Korean BBQ"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1184538,49.28254233]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>La Bomba Taqueria</b><p><i>Tacos and Fresh Salsas</i></p><p>South Side of 1700 E Broadway</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "South Side of 1700 E Broadway Tacos and Fresh Salsas"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.068886,49.26221654]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Le Tigre</b><p><i>Chinese Cuisine</i></p><p>Authorised Parking Meter North Side of Alberni St - East of Bute St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Authorised Parking Meter North Side of Alberni St - East of Bute St Chinese Cuisine"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1256189,49.28659155]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Lemon Sea</b><p><i>Lemonade and Crepes</i></p><p>South Side of 2000 Beach Av - 30 metres West of Chilco St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "South Side of 2000 Beach Av - 30 metres West of Chilco St Lemonade and Crepes"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1446978,49.28968274]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Mac BBQ</b><p><i>Hot Dogs</i></p><p>South Side of 1800 Beach Av - West of Davie St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "South Side of 1800 Beach Av - West of Davie St Hot Dogs"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1425265,49.28758782]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Mac BBQ</b><p><i>Hot Dogs</i></p><p>South Side of 1800 Beach Av - East of Davie St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "South Side of 1800 Beach Av - East of Davie St Hot Dogs"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.142505,49.28732401]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Mangal Kiss</b><p><i>Middle Eastern Cuisine</i></p><p>South Side of 800 W Georgia St - 30 Metres West of Howe St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "South Side of 800 W Georgia St - 30 Metres West of Howe St Middle Eastern Cuisine"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1196114,49.2832896]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Master Chef's Kebab House</b><p><i>Kebabs</i></p><p>East Side of 500 Granville St - 10 Metres North of Dunsmuir St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "East Side of 500 Granville St - 10 Metres North of Dunsmuir St Kebabs"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1159976,49.2838073]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Meet to Eat</b><p><i>Kosher Israeli</i></p><p>Authorised Parking Meter South Side of 1000 Dunsmuir St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Authorised Parking Meter South Side of 1000 Dunsmuir St Kosher Israeli"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.11975,49.285658]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Meet to Eat</b><p><i>Kosher Israeli</i></p><p>West Side of 1100 Burrard St - 10 Metres North of Davie St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "West Side of 1100 Burrard St - 10 Metres North of Davie St Kosher Israeli"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1291636,49.27927604]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Melt City Cheese Sandwiches</b><p><i>Sandwiches</i></p><p>East side of 1300 Main St - 12 Metres North of Terminal Ave</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "East side of 1300 Main St - 12 Metres North of Terminal Ave Sandwiches"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.0998126,49.27300442]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Mo's Hot Dog Plus</b><p><i>Western</i></p><p>South Side of 800 Robson St  -30 Metres West of Howe St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "South Side of 800 Robson St  -30 Metres West of Howe St Western"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1213079,49.28227532]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Mogu</b><p><i>Japanese Cuisine</i></p><p>West Side of Howe St - South of Dunsmuir St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "West Side of Howe St - South of Dunsmuir St Japanese Cuisine"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.117633,49.284218]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Mr. Arancino</b><p><i>Italian Cuisine</i></p><p>West Side of Granville St - 10 Metres North of Robson St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "West Side of Granville St - 10 Metres North of Robson St Italian Cuisine"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1102364,49.27983399]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Mr. Camaron</b><p><i>Drinks and Smoothies</i></p><p>North Side of W Georgia St - 10 Metres West of Homer St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "North Side of W Georgia St - 10 Metres West of Homer St Drinks and Smoothies"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1152374,49.28080124]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Mr. Shawarma</b><p><i>Shawarma</i></p><p>North Side of 800 Robson St - East of Hornby St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "North Side of 800 Robson St - East of Hornby St Shawarma"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1214809,49.28258445]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Mr. Shawarma</b><p><i>Shawarma</i></p><p>Authorised Parking Meter - North Side of 1000 Melville St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Authorised Parking Meter - North Side of 1000 Melville St Shawarma"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.120163,49.285361]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Mr. Shawarma</b><p><i>Middle Eastern Cuisine</i></p><p>East Side of 600 Granville St - 80 Metres North of W Georgia St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "East Side of 600 Granville St - 80 Metres North of W Georgia St Middle Eastern Cuisine"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1171904,49.28301997]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Mr. Tube Steak</b><p><i>Hot Dogs</i></p><p>East Side of 600 Beatty St - 6 Metres North of West Georgia St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "East Side of 600 Beatty St - 6 Metres North of West Georgia St Hot Dogs"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1120401,49.27874633]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Mum's Grilled Cheese Truck</b><p><i>Grilled Cheese and Soups</i></p><p>Authorised Parking Meter -West Side of 700 Howe St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Authorised Parking Meter -West Side of 700 Howe St Grilled Cheese and Soups"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1206849,49.28220949]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Potato Tornado</b><p><i>Potato Based Dishes</i></p><p>West Side of 800 Granville St - 6 Metres South of Robson St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "West Side of 800 Granville St - 6 Metres South of Robson St Potato Based Dishes"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1200796,49.28129718]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Reel Mac and Cheese</b><p><i>Homemade Macaroni and Cheese</i></p><p>Authorised Parking Meter - 1000 W Hastings St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Authorised Parking Meter - 1000 W Hastings St Homemade Macaroni and Cheese"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1193552,49.28789089]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Roaming Dragon</b><p><i>Asian Fusion</i></p><p>Authorised Parking Meter East Side of 1600 Manitoba St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Authorised Parking Meter East Side of 1600 Manitoba St Asian Fusion"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1065487,49.27130785]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Roaming Dragon</b><p><i>Asian Fusion</i></p><p>Authorised Parking Meter East Side of 800 Burrard St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Authorised Parking Meter East Side of 800 Burrard St Asian Fusion"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1229187,49.28309671]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>San Juan Family Farm</b><p><i>Fruit Shakes, Smoothies and Juices</i></p><p>Authorised Parking Meter North Side of 1600 Davie St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Authorised Parking Meter North Side of 1600 Davie St Fruit Shakes, Smoothies and Juices"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.139739,49.286003]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Sea Dogs</b><p><i>Hot Dogs</i></p><p>Coal Harbour Seawall  - 200 Metres Northeast of Broughton St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Coal Harbour Seawall  - 200 Metres Northeast of Broughton St Hot Dogs"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1236823,49.29108215]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Soho Road Naan Kebab</b><p><i>Indian Cuisine</i></p><p>South Side of 700 W Georgia St - 20 Metres West of Granville St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "South Side of 700 W Georgia St - 20 Metres West of Granville St Indian Cuisine"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1185013,49.28257214]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Suassy Thai</b><p><i>Thai Cuisine</i></p><p>North Side of 800 Robson St - 30 Metres West of Howe St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "North Side of 800 Robson St - 30 Metres West of Howe St Thai Cuisine"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1210705,49.2822804]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Super Thai</b><p><i>Thai Cuisine</i></p><p>Authorised Parking Meter North Side of 1000 W Georgia St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Authorised Parking Meter North Side of 1000 W Georgia St Thai Cuisine"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1226238,49.28553211]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Tacofino</b><p><i>Tacos and Burritos</i></p><p>Authorised Parking Meter West Side of 700 Howe St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Authorised Parking Meter West Side of 700 Howe St Tacos and Burritos"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1205293,49.28230118]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Tacofino White Lightening</b><p><i>Tacos and Burritos</i></p><p>Authorised Parking Meter West Side 500 Burrard St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Authorised Parking Meter West Side 500 Burrard St Tacos and Burritos"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.119002,49.286031]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Tandoori Tikka Dog</b><p><i>Hot Dogs</i></p><p>North Side of 500 W Cordova St - 59 Metres West of Richards St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "North Side of 500 W Cordova St - 59 Metres West of Richards St Hot Dogs"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1113588,49.28517391]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Tandoori Tikka Dog</b><p><i>Hot Dogs</i></p><p>South Side of 200 West Georgia St - 8 Metres East of Hamilton St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "South Side of 200 West Georgia St - 8 Metres East of Hamilton St Hot Dogs"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1141943,49.27979726]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Teaja</b><p><i>Teas and Energy Drinks</i></p><p>East Side of 600 Granville St - 30 Metres North of W Georgia St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "East Side of 600 Granville St - 30 Metres North of W Georgia St Teas and Energy Drinks"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1174661,49.28281901]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>The Burger Bus</b><p><i>Western</i></p><p>Foot of Davie St - 2 Metres South of Marinaside Cres.</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Foot of Davie St - 2 Metres South of Marinaside Cres. Western"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1195099,49.27285016]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>The Fryinig Pan</b><p><i>Fried Chicken Sandwiches</i></p><p>Authorised Parking Meter West Side of 500 Burrard St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Authorised Parking Meter West Side of 500 Burrard St Fried Chicken Sandwiches"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1181585,49.2865384]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>The Juice Truck</b><p><i>Juice and Smoothies</i></p><p>Authorised Parking Meter East Side of 300 Cambie St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Authorised Parking Meter East Side of 300 Cambie St Juice and Smoothies"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.10932,49.282864]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>The Juice Truck</b><p><i>Juice and Smoothies</i></p><p>South Side of 900 Robson - 6 Metres East of Burrard St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "South Side of 900 Robson - 6 Metres East of Burrard St Juice and Smoothies"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.122697,49.28310235]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>The Loving Hut</b><p><i>Vegetarian and Vegan</i></p><p>East Side of 1200 Pacific Boulevard - 10 Metres South of Davie St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "East Side of 1200 Pacific Boulevard - 10 Metres South of Davie St Vegetarian and Vegan"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1215196,49.27383589]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>The Reef</b><p><i>Caribbean</i></p><p>Authorised Parking Meter - East Side of Thurlow St - North of W Hastings St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Authorised Parking Meter - East Side of Thurlow St - North of W Hastings St Caribbean"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1195097,49.28801643]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Uptown Doner</b><p><i>Hot Dogs</i></p><p>North Side of 1000 Robson St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "North Side of 1000 Robson St Hot Dogs"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1235697,49.28392202]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Van Dog</b><p><i>Western</i></p><p>South Side of 600 W Georgia St - 6 Metres East of Granville St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "South Side of 600 W Georgia St - 6 Metres East of Granville St Western"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1180668,49.2823144]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Van Dog</b><p><i>Hot Dogs</i></p><p>East Side of 900 Granville St - 75 Metres South of Smithe St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "East Side of 900 Granville St - 75 Metres South of Smithe St Hot Dogs"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1221196,49.27974551]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Van Dog</b><p><i>Hot Dogs</i></p><p>South Side of 900 Robson St - 12 Metres East of Burrard St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "South Side of 900 Robson St - 12 Metres East of Burrard St Hot Dogs"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1226606,49.28308404]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Vie Niapolotan</b><p><i>Italian Cuisine</i></p><p>Authorised Parking Meter - West Side of 400 Burrard St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Authorised Parking Meter - West Side of 400 Burrard St Italian Cuisine"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1175335,49.28690264]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Vij's Railway Express</b><p><i>Indian Cuisine</i></p><p>Authorised Parking Meter North Side of 1000 W Georgia St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "Authorised Parking Meter North Side of 1000 W Georgia St Indian Cuisine"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1225413,49.28549373]
+					  }
+					},
+					{
+					  "type": "Feature",
+					  "properties": {
+						"title": "<b>Yokabai</b><p><i>Burgers and Fries</i><p><p>West Side of 500 Granville St - 10 Metres South of West Pender St</p>",
+						"marker-symbol": "restaurant-15",
+						"description": "West Side of 500 Granville St - 10 Metres South of West Pender St Burgers and Fries"
+					  },
+					  "geometry": {
+						"type": "Point",
+						"coordinates": [-123.1151752,49.28452212]
+					  }
+					}
+				  ]
+				}
+					
+				},
+				
+			"layout": {
+				"icon-image": "{marker-symbol}",
+				"icon-allow-overlap": true,
+			}
+		});
+		
+	  var popup = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false
+    });
+
+    map.on('mouseenter', 'points', function(e) {
+        // Change the cursor style as a UI indicator.
+        map.getCanvas().style.cursor = 'pointer';
+
+        // Populate the popup and set its coordinates
+        // based on the feature found.
+        popup.setLngLat(e.features[0].geometry.coordinates)
+            .setHTML(e.features[0].properties.title)
+            .addTo(map);
+    });
+
+    map.on('mouseleave', 'points', function() {
+        map.getCanvas().style.cursor = '';
+        popup.remove();
+    });	
+	
+	    map.on('click', 'points', function (e) {
+        new mapboxgl.Popup()
+            .setLngLat(e.features[0].geometry.coordinates)
+            .setHTML(e.features[0].properties.title)
+            .addTo(map);
+    });
+});
+</script>	
+	
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
